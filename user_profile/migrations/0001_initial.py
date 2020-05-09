@@ -4,6 +4,8 @@ import django.contrib.auth.models
 import django.contrib.auth.validators
 from django.db import migrations, models
 import django.utils.timezone
+from django.conf import settings
+from django.contrib.auth.hashers import make_password
 
 
 class Migration(migrations.Migration):
@@ -13,6 +15,16 @@ class Migration(migrations.Migration):
     dependencies = [
         ('auth', '0011_update_proxy_permissions'),
     ]
+
+    def add_user(apps, schema_editor):
+        username = 'admin'
+        password = 'admin'
+        User = apps.get_model(*settings.AUTH_USER_MODEL.split('.'))
+        User.objects.create(
+            username=username,
+            is_superuser=True,
+            password=make_password(password),
+        )
 
     operations = [
         migrations.CreateModel(
@@ -44,4 +56,6 @@ class Migration(migrations.Migration):
                 ('objects', django.contrib.auth.models.UserManager()),
             ],
         ),
+
+        migrations.RunPython(add_user),
     ]
