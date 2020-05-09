@@ -6,7 +6,10 @@ from user_profile.models import User
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['url', 'username', 'email', 'bio', 'location', 'birth_date']
+        fields = ['url', 'username', 'email', 'bio', 'location', 'birth_date', 'is_superuser']
+        extra_kwargs = {
+            'is_superuser': {'read_only': True}
+        }
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
