@@ -23,6 +23,7 @@ class Migration(migrations.Migration):
         User.objects.create(
             username=username,
             is_superuser=True,
+            is_staff=True,
             password=make_password(password),
         )
 
